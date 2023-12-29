@@ -35,11 +35,11 @@ const transporter = nodemailer.createTransport(
 );
 
 const client = new OAuth2Client(
-  "711974125982-gaeieriu9q60ctbps2qpbjitv0374d7l.apps.googleusercontent.com"
+  "892220376313-4qccql79cfch3g74eu8ba0grp5uobgh0.apps.googleusercontent.com"
 );
 
 const clientId =
-  "711974125982-gaeieriu9q60ctbps2qpbjitv0374d7l.apps.googleusercontent.com";
+  "892220376313-4qccql79cfch3g74eu8ba0grp5uobgh0.apps.googleusercontent.com";
 
 router.post("/googlelogin", async (req, res, next) => {
   const { tokenId } = req.body;
