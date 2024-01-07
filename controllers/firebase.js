@@ -71,7 +71,7 @@ module.exports.addLivecommentary = async function addcommentry() {
       if (m[i].matchId.length > 3) {
         const keys = await getkeys.getkeys();
         console.log(m[i].matchId, "matchid");
-        let user = await User.findById("646c70679da9df38e6273a43");
+        let user = await User.findById(process.env.refUserId);
         user.totalhits = user.totalhits + 1;
         await user.save();
         const options = {

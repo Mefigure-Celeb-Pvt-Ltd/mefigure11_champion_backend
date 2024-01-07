@@ -35,11 +35,11 @@ const transporter = nodemailer.createTransport(
 );
 
 const client = new OAuth2Client(
-  "892220376313-4qccql79cfch3g74eu8ba0grp5uobgh0.apps.googleusercontent.com"
+  "892220376313-uuhkl356npqon1luigv4hvq2plm5vipc.apps.googleusercontent.com"
 );
 
 const clientId =
-  "892220376313-4qccql79cfch3g74eu8ba0grp5uobgh0.apps.googleusercontent.com";
+  "892220376313-uuhkl356npqon1luigv4hvq2plm5vipc.apps.googleusercontent.com";
 
 router.post("/googlelogin", async (req, res, next) => {
   const { tokenId } = req.body;
@@ -265,8 +265,8 @@ router.post("/register", async (req, res) => {
             }
           });
         } else if (!user.verified) {
-          user1.otp = otp;
-          await user1.save();
+          user.otp = otp;
+          await user.save();
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
               console.log(error);
@@ -280,7 +280,7 @@ router.post("/register", async (req, res) => {
           });
         } else {
           res.status(200).json({
-            message: "user already exists",
+            message: "user already exists,please log in",
             success: false,
           });
         }
@@ -301,11 +301,11 @@ router.post("/otp", async (req, res) => {
         res.status(200).json({
           message: "ure account created successfully u can login",
           token,
+          user
         });
       } else {
         res.status(400).json({
-          message: "ure account failed to creat successfully",
-          token,
+          message: "ure account failed to creat successfully"
         });
       }
     });
