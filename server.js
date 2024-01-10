@@ -61,6 +61,7 @@ const api_key =
 // ...
 
 // Remove the error.log file every twenty-first day of the month.
+addingteam.addPlayers();
 cron.schedule("0 * * * *", async function () {
   await transaction.startTransaction();
 });
