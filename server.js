@@ -27,6 +27,7 @@ const addlivescoresnew = require("./controllers/addlivescoresdetails");
 const addlivenew = require("./controllers/addlivedetails");
 const addingteam = require("./controllers/addplayer");
 const addingteame = require("./controllers/teamcreatecontroller");
+const news = require("./controllers/addNewsController");
 const addIds = require("./controllers/addMatchIds");
 const getkeys = require("./crickeys");
 // Environment variables
@@ -61,7 +62,7 @@ const api_key =
 // ...
 
 // Remove the error.log file every twenty-first day of the month.
-addingteam.addPlayers();
+//addingteam.addPlayers();
 cron.schedule("0 * * * *", async function () {
   await transaction.startTransaction();
 });
@@ -87,6 +88,10 @@ cron.schedule("0 */20 * * *", async function () {
 cron.schedule("0 */8 * * *", async function () {
   await addIds.addMatchIds();
 });
+cron.schedule("0 22 * * *", async function () {
+  await news.addNews();
+});
+//news.addNews();
 // livedetails.addLivematchtodb();
 // livescore.addLivematchtodb();
 // addIds.addMatchIds();

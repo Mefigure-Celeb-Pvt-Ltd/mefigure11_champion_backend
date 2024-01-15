@@ -18,6 +18,7 @@ const Match = require("../models/match");
 const FMatch = require("../models/fMatch ");
 const Team = require("../models/team");
 const User = require("../models/user");
+const News = require("../models/news");
 const Contest = require("../models/contest");
 const Player = require("../models/players");
 const getflags = require("../utils/getflags");
@@ -41,7 +42,7 @@ router.get("/myMatches/:userid", async (req, res) => {
     results: [],
   };
   const findDate = new Date();
-  const matches = await Matches.find({ matchId: { $in: [...user.matchIds] }});
+  const matches = await Matches.find({ matchId: { $in: [...user.matchIds] } });
   const usermatchespromises = user.matchIds.map((id) =>
     LiveMatches.findOne({ matchId: id })
   );
@@ -123,12 +124,12 @@ router.get("/myMatches/:userid", async (req, res) => {
       const matt = allusermatchesdetails.find(
         (m) => m.matchId == matches[i].matchId
       );
-      console.log(matt,'matt')
+      console.log(matt, 'matt')
       let contests = [];
       let teams = [];
       if (matt && matt.result == "In Progress") {
         mat.result = "No";
-        console.log(matt,'matt')
+        console.log(matt, 'matt')
         if (req.params.userid) {
           let teams = allteams.filter(
             (a) => a.matchId == matt.matchId && a.userId == req.params.userid
@@ -143,7 +144,7 @@ router.get("/myMatches/:userid", async (req, res) => {
         }
       }
       if (req.params.userid && matt?.result == "Complete") {
-        console.log(matt,'matt')
+        console.log(matt, 'matt')
         mat.result = "Yes";
         let teams = allteams.filter(
           (a) => a.matchId == matt.matchId && a.userId == req.params.userid
@@ -286,7 +287,7 @@ router.get("/myMatches/:userid", async (req, res) => {
   res.status(200).json({
     completed: completedMatches,
     upcoming: upcomingMatches,
-    live:liveMatches
+    live: liveMatches
   });
 });
 
@@ -1257,6 +1258,14 @@ router.get("/alllivematches", async (req, res) => {
   res.status(200).json({
     message: "teams got successfully",
     livematches,
+  });
+});
+
+router.get("/news", async (req, res) => {
+  const news = await News.find();
+  res.status(200).json({
+    message: "news got successfully",
+    news: news,
   });
 });
 
