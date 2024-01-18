@@ -23,7 +23,7 @@ const instance = new Razorpay({
 });
 
 router.get("/createpayment/:amount", (req, res) => {
-  console.log("rajesh");
+  console.log("mefigure");
   try {
     const options = {
       amount: Number(req.params.amount) * 100,
@@ -45,7 +45,7 @@ router.get("/createpayment/:amount", (req, res) => {
 });
 
 router.post("/capture/:paymentId/:amount", (req, res) => {
-  console.log("rajeevsoori");
+  console.log("mefigure");
   try {
     return request(
       {

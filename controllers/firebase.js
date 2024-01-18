@@ -43,7 +43,7 @@ const serviceAccount = {
 // Add a new document with a generated id.
 module.exports.addLivecommentary = async function addcommentry() {
   try {
-    console.log("rajesh");
+    console.log("mefigure");
     let date = new Date();
     let matchess = [];
     const endDate = new Date(date.getTime());

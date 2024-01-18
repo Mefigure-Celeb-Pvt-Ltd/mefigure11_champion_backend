@@ -17,7 +17,7 @@ const transaction = require("./transaction_details_controller");
 const User = require("../models/user");
 const req = unirest("GET", "https://www.fast2sms.com/dev/bulkV2");
 const server_secret_key =
-  "iamrajesh675gjhchshskijdiucacuijnuijniusjiudjcsdijcjsijcisjijsoisju";
+  "iammefigure675gjhchshskijdiucacuijnuijniusjiudjcsdijcjsijcisjijsoisju";
 const api_key =
   "s16rcBDzWjgNhJXPEUV9HA3QMSfvpen2GyL7a4F8ubdwICk5KOHPT32vI5b6cSxs8JpUhirCOjqogGwk";
 const transporter = nodemailer.createTransport(
@@ -73,7 +73,7 @@ router.post("/googlelogin", async (req, res, next) => {
       user1.email = response.payload.email;
       user1.image = response.payload.picture;
       user1.password = "password";
-      user1.phonenumber = 7259293140;
+      user1.phonenumber = 8899700966;
       user1.wallet = 0;
       const options = {
         method: "POST",
@@ -86,7 +86,7 @@ router.post("/googlelogin", async (req, res, next) => {
         body: JSON.stringify({
           name: response.payload.name,
           email: response.payload.email,
-          contact: 7259293140,
+          contact: 8899700966,
           type: "employee",
           reference_id: "Domino Contact ID 12345",
           notes: {

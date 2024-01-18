@@ -15,7 +15,7 @@ const User = require("./models/user");
 const Matches = require("./models/match_live_details_new");
 
 const uri =
-  "mongodb+srv://rajeshmn47:uni1ver%40se@cluster0.bpxam.mongodb.net/mydreamDatabaseSecond?retryWrites=true&w=majority";
+  "mongodb+srv://mefigure24:setyuiovc346nht@cluster0.dgynide.mongodb.net/myfigure";
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
