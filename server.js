@@ -91,7 +91,7 @@ cron.schedule("0 */8 * * *", async function () {
 cron.schedule("0 22 * * *", async function () {
   await news.addNews();
 });
-news.addNews();
+//news.addNews();
 // livedetails.addLivematchtodb();
 // livescore.addLivematchtodb();
 // addIds.addMatchIds();

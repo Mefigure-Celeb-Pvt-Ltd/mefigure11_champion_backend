@@ -286,7 +286,7 @@ router.post("/register", async (req, res) => {
         }
       });
     })
-    .catch((err) => {});
+    .catch((err) => { });
 });
 router.post("/otp", async (req, res) => {
   const user = await User.findOne({ email: req.body.email });
@@ -361,20 +361,24 @@ router.get("/forgot-password/:email", async (req, res) => {
         text: `enter this otp ${otp}`,
       };
 
-      transporter.sendMail(mailOptions, (error, info) => {
+      transporter.sendMail(mailOptions, async (error, info) => {
         if (error) {
+          res.status(400).json({
+            message: "their was some error",
+            success: false,
+          });
         } else {
-        }
-      });
-      await user1.save();
-      const userid = user1._id;
-      const token = jwt.sign({ userid }, activatekey, {
-        expiresIn: "500m",
-      });
+          await user1.save();
+          const userid = user1._id;
+          const token = jwt.sign({ userid }, activatekey, {
+            expiresIn: "500m",
+          });
 
-      res.status(200).json({
-        message: "enter otp recieved on your mail to activate your account",
-        success: true,
+          res.status(200).json({
+            message: "enter otp recieved on your mail to activate your account",
+            success: true,
+          });
+        }
       });
     } else {
       res.status(200).json({
@@ -434,6 +438,31 @@ router.post("/changepassword", async (req, res) => {
       });
     }
   });
+});
+
+router.post("/updateProfile", checkloggedinuser, async (req, res) => {
+  console.log(req.body, 'body');
+  const user = await User.findById(req.body.uidfromtoken);
+  user.username = req.body.username;
+  user.email = req.body.email;
+  user.password = req.body.password;
+  user.phonenumber = req.body.phoneNumber;
+  user.dateOfBirth = req.body.dateOfBirth;
+  user.country = req.body.country;
+  user.state = req.body.state;
+  user.city = req.body.city;
+  await user.save();
+  if (user) {
+    res.status(200).json({
+      user: user,
+      success: true,
+    });
+  } else {
+    res.status(200).json({
+      message: "could not change details",
+      success: false,
+    });
+  }
 });
 
 router.get("/getuser/:id", async (req, res) => {
