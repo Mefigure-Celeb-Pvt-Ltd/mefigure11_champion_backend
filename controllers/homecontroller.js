@@ -1262,7 +1262,7 @@ router.get("/alllivematches", async (req, res) => {
 });
 
 router.get("/news", async (req, res) => {
-  const news = await News.find();
+  const news = await News.find().sort({ date: -1 });
   res.status(200).json({
     message: "news got successfully",
     news: news,
