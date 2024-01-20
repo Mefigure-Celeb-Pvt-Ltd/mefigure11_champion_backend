@@ -35,7 +35,7 @@ const db = getFirestore();
 // Add a new document with a generated id.
 module.exports.addLivecommentary = async function addcommentry() {
   try {
-    console.log("rajesh");
+    console.log("mefigure");
     let date = new Date();
     const matchess = [];
     const endDate = new Date(date.getTime() + 10 * 60 * 60 * 1000);
