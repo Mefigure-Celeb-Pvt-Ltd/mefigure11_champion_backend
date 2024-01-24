@@ -101,7 +101,17 @@ router.get("/getteam", async (req, res) => {
 
 router.get("/getallteams", async (req, res) => {
   console.log(req.query, "ok");
-  const teams = await Team.find();
+  const teams = await Team.aggregate(
+    [
+    {
+      $lookup: {
+        from: "usernews",//your schema name from mongoDB
+        localField: "userId", //user_id from user(main) model
+        foreignField: "_id",//user_id from user(sub) model
+        as: "user"//result var name
+      }
+    },]
+  )
   res.status(200).json({
     message: "teams got successfully",
     teams,

@@ -15,7 +15,7 @@ const withdrawSchema = new mongoose.Schema(
 
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Room'
+      ref: 'UserNew'
     },
 
     isWithdrawCompleted: {
