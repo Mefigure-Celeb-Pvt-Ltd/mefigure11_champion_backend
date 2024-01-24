@@ -104,10 +104,12 @@ const usernewSchema = new mongoose.Schema(
 
     ifsc: {
       type: String,
+      default: ""
     },
 
     accountNumber: {
       type: String,
+      default: ""
     },
 
     upiId: {
@@ -115,7 +117,7 @@ const usernewSchema = new mongoose.Schema(
       default: ""
     },
 
-    dateOfBirth:{
+    dateOfBirth: {
       type: Date
     },
 

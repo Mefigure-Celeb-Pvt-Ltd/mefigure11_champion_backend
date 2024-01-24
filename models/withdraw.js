@@ -10,20 +10,19 @@ const withdrawSchema = new mongoose.Schema(
 
     upiId: {
       type: String,
-      required: true,
+      required: false
     },
 
     userId: {
-      type: String,
-      required: true,
-      default:""
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Room'
     },
 
     isWithdrawCompleted: {
       type: Boolean,
       trim: true,
       default: false,
-    },
+    }
   },
   {
     timestamps: true,

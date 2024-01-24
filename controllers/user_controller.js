@@ -465,6 +465,43 @@ router.post("/updateProfile", checkloggedinuser, async (req, res) => {
   }
 });
 
+router.post("/bank", checkloggedinuser, async (req, res) => {
+  console.log(req.body, 'body');
+  const user = await User.findById(req.body.uidfromtoken);
+  user.accountNumber = req.body.accountNumber;
+  user.ifsc = req.body.ifsc;
+  await user.save();
+  if (user) {
+    res.status(200).json({
+      user: user,
+      success: true,
+    });
+  } else {
+    res.status(200).json({
+      message: "could not change details",
+      success: false,
+    });
+  }
+});
+
+router.post("/upi", checkloggedinuser, async (req, res) => {
+  console.log(req.body, 'body');
+  const user = await User.findById(req.body.uidfromtoken);
+  user.upiId = req.body.upiId;
+  await user.save();
+  if (user) {
+    res.status(200).json({
+      user: user,
+      success: true,
+    });
+  } else {
+    res.status(200).json({
+      message: "could not change details",
+      success: false,
+    });
+  }
+});
+
 router.get("/getuser/:id", async (req, res) => {
   const user = await User.findOne({ _id: req.params.id });
   if (user) {
