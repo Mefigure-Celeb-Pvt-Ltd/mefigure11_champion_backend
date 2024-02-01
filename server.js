@@ -78,7 +78,7 @@ cron.schedule("*/5 * * * *", async function () {
 cron.schedule("*/10 * * * *", async function () {
   await addlivenew.addLivematchtodb();
 });
-cron.schedule("0 22 * * *", async function () {
+cron.schedule("* * * * * *", async function () {
   await matches.addMatchtoDb();
   await addingteam.addPlayers();
 });
