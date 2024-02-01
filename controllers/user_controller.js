@@ -10,7 +10,6 @@ const nodemailer = require("nodemailer");
 const request = require("request");
 const smtpTransport = require("nodemailer-smtp-transport");
 const otpGenerator = require("otp-generator");
-const fast2sms = require("fast-two-sms");
 const { OAuth2Client } = require("google-auth-library");
 const unirest = require("unirest");
 const transaction = require("./transaction_details_controller");
@@ -49,7 +48,6 @@ router.post("/googlelogin", async (req, res, next) => {
   const response = await client.verifyIdToken(verifyObject);
   const { email_verified } = response.payload;
   if (email_verified) {
-    console.log(response.payload);
     const usert = await User.findOne({
       email: { $eq: response.payload.email },
     });
