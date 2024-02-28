@@ -322,7 +322,7 @@ router.post("/phonepePayment", async (req, res) => {
     const data = {
       merchantId: process.env.merchantId,
       merchantTransactionId: merchantTransactionId,
-      merchantUserId: "UYTR6253IOPMUIOPMKL",
+      merchantUserId: req.body.userId,
       name: "RAJESH",
       amount: req.body.amount * 100,
       redirectUrl: `${process.env.URL}/payment/phonepeStatus/${merchantTransactionId}`,
@@ -374,9 +374,9 @@ router.post("/phonepePayment", async (req, res) => {
   }
 })
 
-router.post("/phonepeStatus", async (req, res) => {
+router.post("/phonepeStatus/:transactionId", async (req, res) => {
   console.log("kandeerina")
-  const merchantTransactionId = res.req.body.transactionId
+  const merchantTransactionId = req.params.transactionId
   const merchantId = res.req.body.merchantId
   const keyIndex = 1;
   const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + process.env.salt_key;
