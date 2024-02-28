@@ -374,7 +374,7 @@ router.post("/phonepePayment", async (req, res) => {
   }
 })
 
-router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
+router.get("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   console.log("kandeerina")
   const merchantTransactionId = req.params.transactionId
   const merchantId = req.params.merchantId
