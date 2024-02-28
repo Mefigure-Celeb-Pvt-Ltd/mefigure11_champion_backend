@@ -6,6 +6,8 @@ const express = require("express");
 const dotenv = require("dotenv");
 const { v4: uuidv4 } = require("uuid");
 const mongoose = require("mongoose");
+const crypto = require('crypto');
+const axios = require('axios');
 const Players = require("../models/players");
 const Contest = require("../models/contest");
 const Team = require("../models/team");
@@ -304,6 +306,117 @@ router.delete("/deleteAllWithdraw", async (req, res) => {
     });
   }
 });
+
+function generatetransactionId() {
+  const timestamp = Date.now();
+  const randomNum = Math.floor(Math.random() * 1000000);
+  const merchantPrefix = "T";
+  const transactionId = `${merchantPrefix}${timestamp}${randomNum}`
+  return transactionId
+}
+
+router.post("/phonepePayment", async (req, res) => {
+  try {
+    console.log(generatetransactionId(), 'tid')
+    const merchantTransactionId = generatetransactionId();
+    const data = {
+      merchantId: process.env.merchantId,
+      merchantTransactionId: merchantTransactionId,
+      merchantUserId: "UYTR6253IOPMUIOPMKL",
+      name: "RAJESH",
+      amount: req.body.amount * 100,
+      redirectUrl: `${process.env.URL}/payment/phonepeStatus/${merchantTransactionId}`,
+      redirectMode: 'POST',
+      mobileNumber: "7259293140",
+      paymentInstrument: {
+        type: 'PAY_PAGE'
+      }
+    };
+    const payload = JSON.stringify(data);
+    const payloadMain = Buffer.from(payload).toString('base64');
+    const keyIndex = 1;
+    const string = payloadMain + '/pg/v1/pay' + process.env.salt_key;
+    const sha256 = crypto.createHash('sha256').update(string).digest('hex');
+    const checksum = sha256 + '###' + keyIndex;
+
+    const prod_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay"
+    const options = {
+      method: 'POST',
+      url: prod_URL,
+      headers: {
+        accept: 'application/json',
+        'Content-Type': 'application/json',
+        'X-VERIFY': checksum
+      },
+      data: {
+        request: payloadMain
+      }
+    };
+    console.log(process.env.salt_key, process.env.merchantId, 'data');
+    axios.request(options).then(function (response) {
+      console.log(response.data, 'testing')
+      return res.status(200).json({
+        message: "success",
+        url: response.data.data.instrumentResponse.redirectInfo.url
+      });
+    })
+      .catch(function (error) {
+        //console.log("error got");
+        console.error(error, 'err');
+      })
+
+  } catch (error) {
+    console.log(error, 'error');
+    res.status(500).send({
+      message: error.message,
+      success: false
+    })
+  }
+})
+
+router.post("/phonepeStatus", async (req, res) => {
+  console.log("kandeerina")
+  const merchantTransactionId = res.req.body.transactionId
+  const merchantId = res.req.body.merchantId
+  const keyIndex = 1;
+  const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + process.env.salt_key;
+  const sha256 = crypto.createHash('sha256').update(string).digest('hex');
+  const checksum = sha256 + "###" + keyIndex;
+
+  const options = {
+    method: 'GET',
+    url: `https://api.phonepe.com/apis/hermes/pg/v1/status/${merchantId}/${merchantTransactionId}`,
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
+      'X-VERIFY': checksum,
+      'X-MERCHANT-ID': `${merchantId}`
+    }
+  };
+
+  // CHECK PAYMENT TATUS
+  axios.request(options).then(async (response) => {
+    if (response.data.success === true) {
+      const user = await User.findOne({ _id: "65d18a8ab9015147d16775bf" });
+      user.wallet += 100;
+      user.totalAmountAdded += 100;
+      await user.save();
+      const url = `${process.env.FURL}/success`
+      return res.redirect(url)
+    } else {
+      const url = `${process.env.FURL}/failure`
+      return res.redirect(url)
+    }
+  })
+    .catch((error) => {
+      console.error(error);
+    });
+});
+
+router.get("/testing", async (req, res) => {
+  const url = `http://localhost:3000/payment`
+  return res.redirect(url)
+})
 
 module.exports = router;
 
