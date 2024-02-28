@@ -325,8 +325,8 @@ router.post("/phonepePayment", async (req, res) => {
       merchantUserId: req.body.userId,
       name: "RAJESH",
       amount: req.body.amount * 100,
-      redirectUrl: `${process.env.URL}/payment/phonepeStatus/${merchantTransactionId}`,
-      redirectMode: 'POST',
+      redirectUrl: `${process.env.URL}/payment/phonepeStatus/${merchantTransactionId}/${process.env.merchantId}`,
+      redirectMode: 'REDIRECT',
       mobileNumber: "7259293140",
       paymentInstrument: {
         type: 'PAY_PAGE'
@@ -374,10 +374,10 @@ router.post("/phonepePayment", async (req, res) => {
   }
 })
 
-router.post("/phonepeStatus/:transactionId", async (req, res) => {
+router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   console.log("kandeerina")
   const merchantTransactionId = req.params.transactionId
-  const merchantId = res.req.body.merchantId
+  const merchantId = req.params.merchantId
   const keyIndex = 1;
   const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + process.env.salt_key;
   const sha256 = crypto.createHash('sha256').update(string).digest('hex');
