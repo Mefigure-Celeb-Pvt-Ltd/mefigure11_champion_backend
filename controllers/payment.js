@@ -319,6 +319,12 @@ router.post("/phonepePayment", async (req, res) => {
   try {
     console.log(generatetransactionId(), 'tid')
     const merchantTransactionId = generatetransactionId();
+    await Transaction.create({
+      userId: req.body.userId,
+      action: "deposit",
+      amount: req.body.amount,
+      transactionId: merchantTransactionId,
+    });
     const data = {
       merchantId: process.env.merchantId,
       merchantTransactionId: merchantTransactionId,
@@ -397,7 +403,8 @@ router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   // CHECK PAYMENT TATUS
   axios.request(options).then(async (response) => {
     if (response.data.success === true) {
-      const user = await User.findOne({ _id: "659a92e51e062cc5458be7e7" });
+      const transaction = await Transaction.findOne({ transactionId: response.data.data.merchantTransactionId });
+      const user = await User.findOne({ _id: transaction.userId });
       user.wallet += response.data.data.amount;
       user.totalAmountAdded += response.data.data.amount;
       await user.save();
