@@ -397,7 +397,7 @@ router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   // CHECK PAYMENT TATUS
   axios.request(options).then(async (response) => {
     if (response.data.success === true) {
-      const user = await User.findOne({ _id: "65d18a8ab9015147d16775bf" });
+      const user = await User.findOne({ _id: "659a92e51e062cc5458be7e7" });
       user.wallet += 100;
       user.totalAmountAdded += 100;
       await user.save();
