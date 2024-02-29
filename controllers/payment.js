@@ -398,8 +398,8 @@ router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   axios.request(options).then(async (response) => {
     if (response.data.success === true) {
       const user = await User.findOne({ _id: "659a92e51e062cc5458be7e7" });
-      user.wallet += 100;
-      user.totalAmountAdded += 100;
+      user.wallet += response.data.data.amount;
+      user.totalAmountAdded += response.data.data.amount;
       await user.save();
       const url = `${process.env.FURL}/success`
       return res.redirect(url)
