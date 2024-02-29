@@ -647,18 +647,20 @@ router.get("/home/:userid", async (req, res) => {
     const match_det = allusermatchesdetails.find(
       (m) => m.matchId == user.matchIds[i]
     );
-    if (match_det) {
-      let teamHomeFlagUrl = flagURLs.findFlagUrlByCountryName(
-        match.teamHomeName
-      );
-      let teamAwayFlagUrl = flagURLs.findFlagUrlByCountryName(
-        match.teamAwayName
-      );
-      if (!teamAwayFlagUrl) {
-        teamAwayFlagUrl = getflags.getflag(match.teamAwayName);
-      }
-      if (!teamHomeFlagUrl) {
-        teamHomeFlagUrl = getflags.getflag(match.teamHomeName);
+    if (match_det&&match) {
+      if (match?.teamHomeName) {
+        let teamHomeFlagUrl = flagURLs.findFlagUrlByCountryName(
+          match?.teamHomeName
+        );
+        let teamAwayFlagUrl = flagURLs.findFlagUrlByCountryName(
+          match?.teamAwayName
+        );
+        if (!teamAwayFlagUrl) {
+          teamAwayFlagUrl = getflags.getflag(match.teamAwayName);
+        }
+        if (!teamHomeFlagUrl) {
+          teamHomeFlagUrl = getflags.getflag(match.teamHomeName);
+        }
       }
       const mat = {
         match_title: match.matchTitle,
