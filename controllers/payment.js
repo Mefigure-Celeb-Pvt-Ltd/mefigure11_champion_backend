@@ -405,8 +405,8 @@ router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
     if (response.data.success === true) {
       const transaction = await Transaction.findOne({ transactionId: response.data.data.merchantTransactionId });
       const user = await User.findOne({ _id: transaction.userId });
-      user.wallet += response.data.data.amount;
-      user.totalAmountAdded += response.data.data.amount;
+      user.wallet += response.data.data.amount/100;
+      user.totalAmountAdded += response.data.data.amount/100;
       await user.save();
       const url = `${process.env.FURL}/success`
       return res.redirect(url)

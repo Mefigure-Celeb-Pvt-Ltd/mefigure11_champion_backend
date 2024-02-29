@@ -142,12 +142,12 @@ module.exports.addMatchtoDb = async function () {
           try {
             const match = await Match.findOne({ matchId });
             if (!match) {
-              const prize = [10000, 5000, 4000, 500];
+              const prize = [2450, 1560, 100, 0];
               // let prizeBreakup = [
               //     5, 4, 3, 1
               // ];
-              const totalspots = [50, 40, 30, 10, 0, 0];
-              for (let j = 0; j < 6; j++) {
+              const totalspots = [50, 40, 100, 0];
+              for (let j = 0; j < 4; j++) {
                 const contest1 = new Contest();
                 contest1.price = prize[j];
                 contest1.totalSpots = totalspots[j];
