@@ -326,7 +326,7 @@ router.post("/phonepePayment", async (req, res) => {
       name: "RAJESH",
       amount: req.body.amount * 100,
       redirectUrl: `${process.env.URL}/payment/phonepeStatus/${merchantTransactionId}/${process.env.merchantId}`,
-      redirectMode: 'REDIRECT',
+      redirectMode: 'POST',
       mobileNumber: "7259293140",
       paymentInstrument: {
         type: 'PAY_PAGE'
@@ -374,7 +374,7 @@ router.post("/phonepePayment", async (req, res) => {
   }
 })
 
-router.get("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
+router.post("/phonepeStatus/:transactionId/:merchantId", async (req, res) => {
   console.log("kandeerina")
   const merchantTransactionId = req.params.transactionId
   const merchantId = req.params.merchantId
