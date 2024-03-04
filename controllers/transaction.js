@@ -74,7 +74,7 @@ module.exports.startTransaction = async function () {
               //matches[i].transaction = true;
               //await matches.save();
               const matchUpdate = await MatchLive.updateOne(
-                { matchId: matches[i]?.matchid },
+                { matchId: matches[i]?.matchId },
                 {
                   $set: {
                     transaction: true,
