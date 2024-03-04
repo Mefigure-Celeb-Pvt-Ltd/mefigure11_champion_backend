@@ -98,8 +98,9 @@ cron.schedule("0 22 * * *", async function () {
 // teamstandings.addTeamstandingstodb();
 // matches.addMatchtoDb()
 // teamstandingsA.addTeamstandingstodb()
-// addplayers.addPlayers();
+//addingteam.addPlayers();
 // transaction.startTransaction();
+//addingteame.addteamPlayers()
 async function gettingkeys() {
   const data = await getkeys.getkeys();
   console.log(data, "keys");

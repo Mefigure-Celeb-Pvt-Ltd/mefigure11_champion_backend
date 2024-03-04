@@ -7,6 +7,10 @@ const contestSchema = new mongoose.Schema(
       required: true,
     },
 
+    entryPrice: {
+      type: Number
+    },
+
     totalSpots: {
       type: Number,
       required: true,

@@ -3,6 +3,8 @@ const Match = require("../models/match");
 const Contest = require("../models/contest");
 const User = require("../models/user");
 const getkeys = require("../crickeys");
+const { contestsPrices } = require("../utils/contestsPrices");
+const { addContests } = require("../utils/addContests");
 
 // function prizeBreakupRules(prize, numWinners){
 //     let prizeMoneyBreakup = [];
@@ -177,6 +179,8 @@ module.exports.addMatchtoDb = async function () {
                   if (contest2) {
                     match1.contestId.push(contest2.id);
                   }
+                  const contestIds = await addContests(matchId);
+                  match1.contestId.push(contestIds);
                 } catch (err) {
                   console.log(`Error : ${err}`);
                 }
