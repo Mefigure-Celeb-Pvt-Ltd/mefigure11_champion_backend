@@ -30,6 +30,8 @@ const addingteame = require("./controllers/teamcreatecontroller");
 const news = require("./controllers/addNewsController");
 const addIds = require("./controllers/addMatchIds");
 const getkeys = require("./crickeys");
+const Contest = require("./models/contest");
+const Match = require("./models/match");
 // Environment variables
 /* Requiring body-parser package
 to fetch the data that is entered
@@ -91,21 +93,16 @@ cron.schedule("0 */8 * * *", async function () {
 cron.schedule("0 22 * * *", async function () {
   await news.addNews();
 });
-//news.addNews();
+// news.addNews();
 // livedetails.addLivematchtodb();
 // livescore.addLivematchtodb();
 // addIds.addMatchIds();
 // teamstandings.addTeamstandingstodb();
 // matches.addMatchtoDb()
 // teamstandingsA.addTeamstandingstodb()
-//addingteam.addPlayers();
+// addingteam.addPlayers();
 // transaction.startTransaction();
-//addingteame.addteamPlayers()
-async function gettingkeys() {
-  const data = await getkeys.getkeys();
-  console.log(data, "keys");
-}
-//gettingkeys();
+// addingteame.addteamPlayers()
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
   console.warn(`App listening on http://localhost:${PORT}`);

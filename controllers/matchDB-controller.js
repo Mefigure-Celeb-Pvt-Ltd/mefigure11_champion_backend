@@ -144,48 +144,10 @@ module.exports.addMatchtoDb = async function () {
           try {
             const match = await Match.findOne({ matchId });
             if (!match) {
-              const prize = [2450000, 780000, 100000, 0];
-              // let prizeBreakup = [
-              //     5, 4, 3, 1
-              // ];
-              const totalspots = [50000, 20000, 10000, 500];
-              for (let j = 0; j < 4; j++) {
-                const contest1 = new Contest();
-                contest1.price = prize[j];
-                contest1.totalSpots = totalspots[j];
-                contest1.spotsLeft = totalspots[j];
-                contest1.matchId = matchId;
-                const prizeDetails = [
-                  {
-                    prize: prize[j] * 0.35,
-                  },
-                  {
-                    prize: prize[j] * 0.25,
-                  },
-                  {
-                    prize: prize[j] * 0.15,
-                  },
-                  {
-                    prize: prize[j] * 0.1,
-                  },
-                  {
-                    prize: prize[j] * 0.05,
-                  },
-                ];
-                contest1.prizeDetails = prizeDetails;
-                contest1.numWinners = 5;
-                try {
-                  const contest2 = await Contest.create(contest1);
-                  if (contest2) {
-                    match1.contestId.push(contest2.id);
-                  }
-                  const contestIds = await addContests(matchId);
-                  match1.contestId.push(contestIds);
-                } catch (err) {
-                  console.log(`Error : ${err}`);
-                }
-              }
               try {
+                console.log(matchId, 'matchId');
+                const contestIds = await addContests(matchId);
+                match1.contestId.push(...contestIds);
                 console.log(match1, "match1");
                 const match = await Match.create(match1);
                 if (match) {
