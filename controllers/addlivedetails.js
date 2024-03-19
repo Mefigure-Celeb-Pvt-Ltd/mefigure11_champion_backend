@@ -8,6 +8,7 @@ const Player = require("../models/players");
 const getkeys = require("../crickeys");
 const db = require("./firebaseinitialize");
 const addMatchIds = require("./addMatchIds");
+const { getRecentMatches } = require("cric-live");
 // function prizeBreakupRules(prize, numWinners){
 //     let prizeMoneyBreakup = [];
 //     for(let i = 0; i < numWinners; i++){
@@ -36,7 +37,6 @@ module.exports.addLivematchtodb = async function () {
       $lt: new Date(endDate),
     },
   });
-  console.log(matches, "matches");
   for (let i = 0; i < matches.length; i++) {
     const matchId = matches[i].matchId;
     const match = await MatchLive.findOne({ matchId });
@@ -113,11 +113,11 @@ module.exports.addLivematchtodb = async function () {
               const match = await MatchLive.create(LiveMatchDet);
               if (match) {
                 //await addMatchIds.addMatchIds();
-                const cityRef = db.db.collection("cities").doc(m[i].matchId);
+                const cityRef = db.db.collection("cities").doc(matchId);
                 const doc = await cityRef.get();
                 if (!doc.exists) {
                   console.log("No such document!");
-                  const citRef = db.db.collection("cities").doc(m[i].matchId);
+                  const citRef = db.db.collection("cities").doc(matchId);
                   const res = await citRef.set(
                     {
                       lineupsOut: true,
@@ -125,7 +125,7 @@ module.exports.addLivematchtodb = async function () {
                     { merge: true }
                   );
                 } else {
-                  const citRef = db.db.collection("cities").doc(m[i].matchId);
+                  const citRef = db.db.collection("cities").doc(matchId);
 
                   const res = await citRef.set(
                     {

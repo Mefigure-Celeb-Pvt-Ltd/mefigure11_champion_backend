@@ -47,7 +47,7 @@ module.exports.addLivecommentary = async function addcommentry() {
     let date = new Date();
     let matchess = [];
     const endDate = new Date(date.getTime());
-    date = new Date(date.getTime() - 12 * 60 * 60 * 1000);
+    date = new Date(date.getTime() - 20 * 60 * 60 * 1000);
     const matches = await Matches.find({
       date: {
         $gte: new Date(date),
@@ -70,10 +70,6 @@ module.exports.addLivecommentary = async function addcommentry() {
     for (let i = 0; i < matchess.length; i++) {
       if (m[i].matchId.length > 3) {
         const keys = await getkeys.getkeys();
-        console.log(m[i].matchId, "matchid");
-        let user = await User.findById(process.env.refUserId);
-        user.totalhits = user.totalhits + 1;
-        await user.save();
         const options = {
           method: "GET",
           url: `https://cricbuzz-cricket.p.rapidapi.com/mcenter/v1/${m[i].matchId}/comm`,
@@ -90,7 +86,6 @@ module.exports.addLivecommentary = async function addcommentry() {
             const { miniscore } = response.data;
             const commentaryRef = db.db.collection("commentary").doc(m[i].matchId);
             const doc = await commentaryRef.get();
-            console.log("nelson");
             if (!doc.exists) {
               console.log("No such document!");
               const commentaryRef = db.db.collection("commentary").doc(m[i].matchId);
@@ -98,7 +93,7 @@ module.exports.addLivecommentary = async function addcommentry() {
                 {
                   capital: [...a],
                   livedata: matchdata,
-                  miniscore,
+                  miniscore: miniscore
                 },
                 { merge: true }
               );
@@ -109,9 +104,9 @@ module.exports.addLivecommentary = async function addcommentry() {
               let commentary = getcommentary.getcommentary(xyz, a);
               const res = await commentaryRef.set(
                 {
-                  capital: [...commentary],
+                  capital: [...a],
                   livedata: matchdata,
-                  miniscore,
+                  miniscore: miniscore
                 },
                 { merge: true }
               );
